@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  postgresdb:
+    container_name: postgresdb
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=stef
+      - POSTGRES_DB=tech_products
+      - POSTGRES_PASSWORD=password
+  spring_server:
+    container_name: spring_server
+    build: ./spring_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresdb
+  react_frontend:
+    container_name: react-frontend
+    build: ./frontend
+    ports:
+      - "4173:4173"
+    depends_on:
+      - spring_server
+# volumes:
+#   db:
